@@ -26,10 +26,3 @@ END {
 if __FILE__ == $0
     FDCApp.new(ARGV)
 end
-
-=begin
-
-RUBY NOTES
-- Use &&/|| over and/or
-
-=end

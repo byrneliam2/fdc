@@ -1,7 +1,7 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
-class Closure
+class Closure < FDCType
 
     def initialize(raw_fds)
         if formatted?(raw_fds)
