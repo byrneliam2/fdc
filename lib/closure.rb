@@ -3,7 +3,18 @@
 
 class Closure
 
-    def initialize()
-        @fds = []
+    def initialize(raw_fds)
+        if formatted?(raw_fds)
+            @fds = fds
+        end
+    end
+
+    private
+
+    def formatted?(raw_fds)
+    end
+
+    def extract(raw_fds)
+    end    
 
 end

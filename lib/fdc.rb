@@ -31,3 +31,5 @@ end
 
 RUBY NOTES
 - Use &&/|| over and/or
+
+=end
