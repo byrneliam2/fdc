@@ -1,2 +1,4 @@
 # fdc
-Simple command-line based calculator/generator-thing for determining the closures of a set of functional dependencies. This is mostly made to be a simple time-saver when dealing with algorithms that require closures as a secondary reference.
+Intended to be a simple command-line based calculator/generator-thing for determining the closures of a set of functional dependencies. May also be extended to include other fun stuff from the world of relational database design.
+
+This is a personal project made to help out with my studies in relational database theory and also to be my Ruby practice playground.
