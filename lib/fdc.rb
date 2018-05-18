@@ -1,11 +1,7 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
-BEGIN {
-    puts("Initializing FDC...")
-}
-
-#$global_var = something
+require_relative "parser"
 
 class FDCApp
 
@@ -14,14 +10,10 @@ class FDCApp
     def initialize(args)
         #@instance_var = something
         #@@class_var = somethingelse
-        puts(args)
+        FDCParser.parse(args)
     end
 
 end
-
-END {
-    puts("Closing FDC...")
-}
 
 if __FILE__ == $0
     FDCApp.new(ARGV)
