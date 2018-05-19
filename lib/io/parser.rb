@@ -12,31 +12,48 @@ class FDCParser
         case args[0]
         when "-c", "--closure"
             return parse_closure(args.slice!(0))
+        when "-m", "--mincover"
+        when "-n", "--normalform"
         when "-h", "--help"
             puts help
+            'stop'
         else
             puts help
+            'stop'
         end
     end
 
     def parse_closure(cmps)
-        atrb = cmps.length == 3 ? ast_atrbs : true
-        if not assert_schema(cmps[0]) && assert_fds(cmps[1]) && atrb
-            return 'stop'
+        if cmps.length == 1
+            error("closure", "schema and dependency set missing")
+            'stop'
         end
-
-        ast_atrbs {
-        }
+        if cmps.length == 2
+            error("closure", "dependency set missing")
+            'stop'
+        end
+        atrb = cmps.length == 3
+        if not assert_schema(cmps[0]) && assert_fds(cmps[1])
+            return Closure.new(cmps[0], cmps[1])
+        end
     end   
 
     def assert_schema(schema)
         tokens = schema.split('')
         if tokens[0] != 'R'
-            return false
+            false
         end
         if tokens[1] != '(' || tokens[tokens.length - 1] != ')'
-            return false
+            false
         end
+        true
+    end
+
+    def assert_fds(fds)
+    end
+
+    def error(gen, msg)
+        puts "ERROR: cannot compute #{gen}, #{msg}"
     end
 
     def help
@@ -44,6 +61,8 @@ class FDCParser
 
         Usage:
             fdc -c/--closure <schema> <fds> [<attrs>]
+            fdc -m/--mincover <schema> <fds>
+            fdc -n/--normalform <schema> <fds>
             fdc -h/--help
         Definitions:
             <schema> = Relation schema in form R(A, B, CD)

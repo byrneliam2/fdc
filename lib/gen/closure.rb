@@ -8,7 +8,7 @@ class Closure < GeneratorProcess
 
     def compute_closure(atrb)
         g = @fds
-        x = [atrb]
+        x = Set[atrb]
         g.each do |f|
             if f.lhs.subset?(x)
                 

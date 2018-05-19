@@ -12,12 +12,7 @@ class FDC
 
     def run(args)
         opt = @parser.parse(args)
-        if opt != 'stop'
-            select(opt)
-        end
-    end
-
-    def select(opt)
+        opt == 'stop' ? exit : opt.compute
     end
 
 end
