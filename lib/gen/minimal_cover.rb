@@ -1,7 +1,7 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
-class MinimalCover < FDCType
+class MinimalCover < GeneratorProcess
 
     #
 

@@ -1,20 +1,24 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
-require_relative "parser"
+require_relative "io/parser"
 
-class FDCApp
+class FDC
 
     #CONSTANT = something
 
     def initialize(args)
-        #@instance_var = something
+        @parser = FDCParser.new
         #@@class_var = somethingelse
-        FDCParser.parse(args)
+
+        opt = @parser.parse(args)
+        if opt != 'stop'
+            select(opt)
+        end
     end
 
 end
 
 if __FILE__ == $0
-    FDCApp.new(ARGV)
+    FDC.new(ARGV)
 end

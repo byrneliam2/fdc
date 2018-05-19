@@ -1,7 +1,7 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
-class FDCType
+class NormalForm < GeneratorProcess
 
     #
 
