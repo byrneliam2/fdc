@@ -5,16 +5,19 @@ require_relative "io/parser"
 
 class FDC
 
-    #CONSTANT = something
-
     def initialize(args)
         @parser = FDCParser.new
-        #@@class_var = somethingelse
+        run(args)
+    end
 
+    def run(args)
         opt = @parser.parse(args)
         if opt != 'stop'
             select(opt)
         end
+    end
+
+    def select(opt)
     end
 
 end

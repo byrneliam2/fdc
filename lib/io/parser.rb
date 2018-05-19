@@ -24,6 +24,9 @@ class FDCParser
         if not assert_schema(cmps[0]) && assert_fds(cmps[1]) && atrb
             return 'stop'
         end
+
+        ast_atrbs {
+        }
     end   
 
     def assert_schema(schema)
