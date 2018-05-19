@@ -45,13 +45,12 @@ class FDCParser
 
     def assert_schema(schema)
         if schema[0] != 'R' or schema[1] != '(' || schema[schema.length - 1] != ')'
-            error("schema must follow direct form R(<attrs>)")
+            error("incorrectly formed schema: see help (-h)")
             return false
         end
         schema[2...schema.length - 1].split(',').each do |s|
             s.strip!
-            if not s.match?("[A-Za-z]+")
-                error("incorrectly formed attributes: see help (-h)")
+            if not assert_atrbs(s)
                 return false
             end
             true
@@ -61,21 +60,31 @@ class FDCParser
 
     def assert_fds(fds)
         if fds[0] != '{' || fds[fds.length - 1] != '}'
-            error("schema must follow direct form R(<attrs>)")
+            error("incorrectly formed dependency set: see help (-h)")
             return false
         end
         fds[1...fds.length - 1].split(';').each do |f|
             f = f.delete(' ')
-            if not f.match?("[A-Za-z]+->[A-Za-z]+")
+            puts f
+            if not f.match?("(->){1}")
                 error("incorrectly formed functional dependencies: see help (-h)")
                 return false
             end
-            f.split(',').each do |fx|
-                if not fx.match?("[A-Za-z]+")
-                    error("incorrectly formed functional dependencies: see help (-h)")
-                    return false
+            f.split('->').each do |fx|
+                fx.split(',').each do |fxx|
+                    if not assert_atrbs(fxx)
+                        return false
+                    end
                 end
             end
+        end
+        true
+    end
+
+    def assert_atrbs(atrb)
+        if not atrb.match?("^[A-Za-z]+$")
+            error("incorrectly formed attributes: see help (-h)")
+            return false
         end
         true
     end

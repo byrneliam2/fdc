@@ -17,6 +17,11 @@ class FDCTests < Test::Unit::TestCase
         assert_true(p.assert_schema("R(A, B,CD)"))
     end
 
+    def test03_parseFDs
+        p = FDCParser.new
+        assert_true(p.assert_fds("{A -> B; A -> C; AB-> A,D}"))
+    end
+
     def test10_parseSchemas
         p = FDCParser.new
         assert_false(p.assert_schema("(A)"))
