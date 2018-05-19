@@ -1,9 +1,11 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
+require_relative "generator_process"
+
 class Closure < GeneratorProcess
 
-    def compute(atrbs)
+    def compute
     end
 
     def compute_closure(atrb)
@@ -11,6 +13,7 @@ class Closure < GeneratorProcess
         x = Set[atrb]
         g.each do |f|
             if f.lhs.subset?(x)
+            end
                 
         end
     end

@@ -6,15 +6,16 @@ class GeneratorProcess
     def initialize(schema, fds)
         @schema = format_schema(schema)
         @fds = format_fds(fds)
+    end
 
     def compute
         raise NotImplementedError
     end
 
-    def format_schema
+    def format_schema(schema)
     end
 
-    def format_fds
+    def format_fds(fds)
     end
 
 end

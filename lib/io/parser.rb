@@ -1,6 +1,8 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
+Dir[File.join(__dir__, '..', 'gen', '*.rb')].each { |file| require file }
+
 class FDCParser
 
     # PARSER FORMATS
@@ -11,49 +13,52 @@ class FDCParser
     def parse(args)
         case args[0]
         when "-c", "--closure"
-            return parse_closure(args.slice!(0))
+            return parse_closure(args[1..args.length])
         when "-m", "--mincover"
+            return parse_mincover(args[1..args.length])
         when "-n", "--normalform"
+            return parse_normalform(args[1..args.length])
         when "-h", "--help"
             puts help
-            'stop'
+            return 'stop'
         else
             puts help
-            'stop'
+            return 'stop'
         end
     end
 
     def parse_closure(cmps)
+        if cmps.length == 0
+            error("schema and dependency set missing")
+            return 'stop'
+        end
         if cmps.length == 1
-            error("closure", "schema and dependency set missing")
-            'stop'
+            error("dependency set missing")
+            return 'stop'
         end
-        if cmps.length == 2
-            error("closure", "dependency set missing")
-            'stop'
-        end
-        atrb = cmps.length == 3
         if not assert_schema(cmps[0]) && assert_fds(cmps[1])
             return Closure.new(cmps[0], cmps[1])
         end
     end   
 
     def assert_schema(schema)
-        tokens = schema.split('')
-        if tokens[0] != 'R'
-            false
-        end
-        if tokens[1] != '(' || tokens[tokens.length - 1] != ')'
-            false
+        if schema[0] != 'R' or schema[1] != '(' || schema[schema.length - 1] != ')'
+            error("schema must follow direct form R(<attrs>)")
+            return false
         end
         true
     end
 
     def assert_fds(fds)
+        if fds[0] != '{' || fds[fds.length - 1] != '}'
+            error("schema must follow direct form R(<attrs>)")
+            return false
+        end
+        true
     end
 
-    def error(gen, msg)
-        puts "ERROR: cannot compute #{gen}, #{msg}"
+    def error(msg)
+        puts "ERROR: #{msg}"
     end
 
     def help
