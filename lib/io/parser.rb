@@ -1,7 +1,9 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
-Dir[File.join(__dir__, '..', 'gen', '*.rb')].each { |file| require file }
+require_relative "../gen/closure"
+require_relative "../gen/minimal_cover"
+require_relative "../gen/normal_form"
 
 class FDCParser
 
@@ -46,6 +48,14 @@ class FDCParser
             error("schema must follow direct form R(<attrs>)")
             return false
         end
+        schema[2...schema.length - 1].split(',').each do |s|
+            s.strip!
+            if not s.match?("[A-Za-z]+")
+                error("incorrectly formed attributes: see help (-h)")
+                return false
+            end
+            true
+        end
         true
     end
 
@@ -53,6 +63,19 @@ class FDCParser
         if fds[0] != '{' || fds[fds.length - 1] != '}'
             error("schema must follow direct form R(<attrs>)")
             return false
+        end
+        fds[1...fds.length - 1].split(';').each do |f|
+            f = f.delete(' ')
+            if not f.match?("[A-Za-z]+->[A-Za-z]+")
+                error("incorrectly formed functional dependencies: see help (-h)")
+                return false
+            end
+            f.split(',').each do |fx|
+                if not fx.match?("[A-Za-z]+")
+                    error("incorrectly formed functional dependencies: see help (-h)")
+                    return false
+                end
+            end
         end
         true
     end
