@@ -8,10 +8,6 @@ class GeneratorProcess
         @fds = format_fds(fds)
     end
 
-    def compute
-        raise NotImplementedError
-    end
-
     def format_schema(schema)
     end
 

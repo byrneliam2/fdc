@@ -38,12 +38,18 @@ class FDCParser
             error("dependency set missing")
             return 'stop'
         end
-        if not assert_schema(cmps[0]) && assert_fds(cmps[1])
+        if not parse_schema(cmps[0]) && parse_fds(cmps[1])
             return Closure.new(cmps[0], cmps[1])
         end
-    end   
+    end 
+    
+    def parse_mincover
+    end
 
-    def assert_schema(schema)
+    def parse_normalform
+    end
+
+    def parse_schema(schema)
         if schema[0] != 'R' or schema[1] != '(' || schema[schema.length - 1] != ')'
             error("incorrectly formed schema: see help (-h)")
             return false
@@ -53,19 +59,18 @@ class FDCParser
             if not assert_atrbs(s)
                 return false
             end
-            true
         end
         true
     end
 
-    def assert_fds(fds)
+    def parse_fds(fds)
         if fds[0] != '{' || fds[fds.length - 1] != '}'
             error("incorrectly formed dependency set: see help (-h)")
             return false
         end
         fds[1...fds.length - 1].split(';').each do |f|
             f = f.delete(' ')
-            puts f
+            # puts f
             if not f.match?("(->){1}")
                 error("incorrectly formed functional dependencies: see help (-h)")
                 return false
@@ -82,7 +87,7 @@ class FDCParser
     end
 
     def assert_atrbs(atrb)
-        if not atrb.match?("^[A-Za-z]+$")
+        if not atrb.match?("^[A-z]+$")
             error("incorrectly formed attributes: see help (-h)")
             return false
         end
