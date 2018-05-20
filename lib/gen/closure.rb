@@ -5,6 +5,10 @@ require_relative "generator_process"
 
 class Closure < GeneratorProcess
 
+    def initialize(schema, fds)
+        super
+    end
+
     def compute
     end
 

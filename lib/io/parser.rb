@@ -7,11 +7,6 @@ require_relative "../gen/normal_form"
 
 class FDCParser
 
-    # PARSER FORMATS
-    # Closures: -c R(attrs in form A,B,CD) {FDs in form A,B->C,D;...} [optional restriction]
-    # Minimal cover: -m R(attrs) {FDs}
-    # Normal forms: -n R(attrs) {FDs}
-
     def parse(args)
         case args[0]
         when "-c", "--closure"
@@ -38,7 +33,7 @@ class FDCParser
             error("dependency set missing")
             return 'stop'
         end
-        if not parse_schema(cmps[0]) && parse_fds(cmps[1])
+        if parse_schema(cmps[0]) && parse_fds(cmps[1])
             return Closure.new(cmps[0], cmps[1])
         end
     end 
@@ -55,7 +50,6 @@ class FDCParser
             return false
         end
         schema[2...schema.length - 1].split(',').each do |s|
-            s.strip!
             if not assert_atrbs(s)
                 return false
             end
@@ -69,14 +63,12 @@ class FDCParser
             return false
         end
         fds[1...fds.length - 1].split(';').each do |f|
-            f.strip!
-            if not f.match?("^[A-z,\s]+->[A-z,\s]+$")
+            if not f.match?("^[A-z,]+/[A-z,]+$")
                 error("incorrectly formed functional dependencies: see help (-h)")
                 return false
             end
-            f.split('->').each do |fx|
+            f.split('/').each do |fx|
                 fx.split(',').each do |fxx|
-                    fxx.strip!
                     if not assert_atrbs(fxx)
                         return false
                     end
@@ -107,9 +99,9 @@ class FDCParser
             fdc -n/--normalform <schema> <fds>
             fdc -h/--help
         Definitions:
-            <schema> = Relation schema in form R(A, B, CD)
-            <fds> = Functional dependency set in form {A -> B; A -> CD; A,B -> CD}
-            <attrs> = Attributes as specified in schema
+            <schema> = Relation schema in form R(A,B,CD)
+            <fds> = Functional dependency set in form {A/B;A/CD;A,B/CD}
+            <attrs> = Attributes as specified in schema in form [A,B,CD]
 
         HEREDOC
     end

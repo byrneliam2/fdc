@@ -14,17 +14,17 @@ class FDCTests < Test::Unit::TestCase
 
     def test02_parseSchemas
         p = FDCParser.new
-        assert_true(p.parse_schema("R(Student, Lecturer, LecId)"))
+        assert_true(p.parse_schema("R(Student,Lecturer,LecId)"))
     end
 
     def test03_parseSchemas
         p = FDCParser.new
-        assert_true(p.parse_schema("R(A, B,CD)"))
+        assert_true(p.parse_schema("R(A,B,CD)"))
     end
 
     def test05_parseFDs
         p = FDCParser.new
-        assert_true(p.parse_fds("{A -> B; A -> C; AB-> A,D}"))
+        assert_true(p.parse_fds("{A/B;A/C;AB/A,D}"))
     end
 
     ###
@@ -36,37 +36,27 @@ class FDCTests < Test::Unit::TestCase
 
     def test11_parseSchemas
         p = FDCParser.new
-        assert_false(p.parse_schema("R(A B C D)"))
+        assert_false(p.parse_schema("R(Lecturer1, Course2)"))
     end
 
     def test12_parseSchemas
         p = FDCParser.new
-        assert_false(p.parse_schema("R(Lecturer1, Course2)"))
+        assert_false(p.parse_schema("R(A,,B)"))
     end
 
     def test13_parseSchemas
         p = FDCParser.new
-        assert_false(p.parse_schema("R(A,,B)"))
+        assert_false(p.parse_schema("R(A/B)"))
     end
 
-    def test14_parseSchemas
-        p = FDCParser.new
-        assert_false(p.parse_schema("R(A->B)"))
-    end
-
-    def test15_parseFDs
+    def test14_parseFDs
         p = FDCParser.new
         assert_false(p.parse_fds("{AB}"))
     end
 
-    def test16_parseFDs
+    def test15_parseFDs
         p = FDCParser.new
-        assert_false(p.parse_fds("{A->B,C->D}"))
-    end
-
-    def test17_parseFDs
-        p = FDCParser.new
-        assert_false(p.parse_fds("{A B -> C; C -> D}"))
+        assert_false(p.parse_fds("{A/B,C/D}"))
     end
 
 end
