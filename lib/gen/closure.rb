@@ -13,8 +13,7 @@ class Closure < GeneratorProcess
         x = Set[atrb]
         g.each do |f|
             if f.lhs.subset?(x)
-            end
-                
+            end 
         end
     end
 

@@ -69,13 +69,14 @@ class FDCParser
             return false
         end
         fds[1...fds.length - 1].split(';').each do |f|
-            f = f.delete(' ')
-            if not f.match?("^[A-z,]+->[A-z,]+$")
+            f.strip!
+            if not f.match?("^[A-z,\s]+->[A-z,\s]+$")
                 error("incorrectly formed functional dependencies: see help (-h)")
                 return false
             end
             f.split('->').each do |fx|
                 fx.split(',').each do |fxx|
+                    fxx.strip!
                     if not assert_atrbs(fxx)
                         return false
                     end
