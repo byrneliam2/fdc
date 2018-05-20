@@ -70,8 +70,7 @@ class FDCParser
         end
         fds[1...fds.length - 1].split(';').each do |f|
             f = f.delete(' ')
-            # puts f
-            if not f.match?("(->){1}")
+            if not f.match?("^[A-z,]+->[A-z,]+$")
                 error("incorrectly formed functional dependencies: see help (-h)")
                 return false
             end

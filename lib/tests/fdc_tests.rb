@@ -61,7 +61,12 @@ class FDCTests < Test::Unit::TestCase
 
     def test16_parseFDs
         p = FDCParser.new
-        # assert_false(p.parse_fds("{A->B,C->D}"))
+        assert_false(p.parse_fds("{A->B,C->D}"))
+    end
+
+    def test17_parseFDs
+        p = FDCParser.new
+        assert_false(p.parse_fds("{A B -> C; C -> D}"))
     end
 
 end
