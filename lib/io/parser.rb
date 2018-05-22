@@ -36,6 +36,7 @@ class FDCParser
         if parse_schema(cmps[0]) && parse_fds(cmps[1])
             return Closure.new(cmps[0], cmps[1])
         end
+        'stop'
     end 
     
     def parse_mincover

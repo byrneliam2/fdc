@@ -2,17 +2,19 @@
 # fdc
 
 require_relative "io/parser"
+require_relative "io/printer"
 
 class FDC
 
     def initialize(args)
         @parser = FDCParser.new
+        @printer = Printer.new
         run(args)
     end
 
     def run(args)
         opt = @parser.parse(args)
-        opt == 'stop' ? exit : opt.compute
+        opt == 'stop' ? exit : @printer.print(opt.compute)
         #opt&.compute
     end
 
