@@ -14,18 +14,19 @@ class Closure < GeneratorProcess
         @schema.each do |atrb|
             out.push compute_closure(atrb)
         end
+        # p out
         return out
     end
 
     def compute_closure(atrb)
         g = @fds
         x = Set[atrb]
-        g.each do |f|
+        g.each do |f| # TODO extend loop
             if f.lhs.subset?(x)
-                puts "#{atrb} = Woohoo!"
-                x.add(f)
+                x = x | f.rhs
             end 
         end
+        return x
     end
 
 end
