@@ -11,8 +11,11 @@ class Closure < GeneratorProcess
 
     def compute
         out = []
-        @schema.each do |atrb|
-            out.push compute_closure(atrb)
+        for i in 1..@schema.length do
+            @schema.to_a.combination(i).each do |atrb|
+                atrb = atrb.join
+                out.push compute_closure(atrb)
+            end
         end
         # p out
         return out
@@ -30,7 +33,7 @@ class Closure < GeneratorProcess
                     # i += 1
                 end 
             end
-            # break if i == 0
+            break if i == 0
             # i = 0
         end
         return x
