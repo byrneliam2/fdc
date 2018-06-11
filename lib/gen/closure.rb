@@ -21,10 +21,17 @@ class Closure < GeneratorProcess
     def compute_closure(atrb)
         g = @fds
         x = Set[atrb]
-        g.each do |f| # TODO extend loop
-            if f.lhs.subset?(x)
-                x = x | f.rhs
-            end 
+        i = 0
+
+        loop do
+            g.each do |f| # TODO extend loop (count number of successes in loop)
+                if f.lhs.subset?(x) && 
+                    x = x | f.rhs
+                    # i += 1
+                end 
+            end
+            # break if i == 0
+            # i = 0
         end
         return x
     end
