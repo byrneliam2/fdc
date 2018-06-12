@@ -10,24 +10,20 @@ class Closure < GeneratorProcess
     end
 
     def compute
-        out = []
+        out = {}
         for i in 1..@schema.length do
-            @schema.to_a.combination(i).each do |atrb|
-                atrb = atrb.join
-                out.push compute_closure(atrb)
+            @schema.to_a.combination(i).each do |comb|
+                out.store(comb, compute_closure(SortedSet.new(comb)))
             end
         end
-        # p out
         return out
     end
 
-    def compute_closure(atrb)
-        g = @fds
-        x = Set[atrb]
+    def compute_closure(x)
         i = 0
 
         loop do
-            g.each do |f| # TODO extend loop (count number of successes in loop)
+            @fds.each do |f|
                 if f.lhs.subset?(x) && 
                     x = x | f.rhs
                     # i += 1

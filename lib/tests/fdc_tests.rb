@@ -61,3 +61,5 @@ class FDCTests < Test::Unit::TestCase
 
 end
 
+# fdc -c R(A,B,C,D) {A/B;C/D}
+

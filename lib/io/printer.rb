@@ -4,14 +4,17 @@
 class Printer
 
     def print(args)
-        args.each do |arg|
-            # assume arg is a Set from closure calc for now
-            arg_arr = arg.to_a
-            puts "#{arg_arr[0]} -> #{arg_arr.to_s
+        # assume arg is a Hash from closure calc for now
+        args.each do |k, v|
+            puts "#{k.to_s
                 .gsub("\"", "")
+                .gsub(", ", "")
+                .gsub("[", "")
+                .gsub("]", "")} -> #{v.to_a.to_s
+                .gsub("\"", "")
+                .gsub(", ", "")
                 .gsub("[", "{")
-                .gsub("]", "}")
-            }"
+                .gsub("]", "}")}"
         end
     end
 
