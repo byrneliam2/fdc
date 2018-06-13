@@ -21,7 +21,6 @@ class Closure < GeneratorProcess
 
     def compute_closure(x)
         i = 0
-
         loop do
             @fds.each do |f|
                 if f.lhs.subset?(x) && 

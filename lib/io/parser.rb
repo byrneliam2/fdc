@@ -39,10 +39,22 @@ class FDCParser
         'stop'
     end 
     
-    def parse_mincover
+    def parse_mincover(cmps)
+        if cmps.length == 0
+            error("schema and dependency set missing")
+            return 'stop'
+        end
+        if cmps.length == 1
+            error("dependency set missing")
+            return 'stop'
+        end
+        if parse_schema(cmps[0]) && parse_fds(cmps[1])
+            return MinimalCover.new(cmps[0], cmps[1])
+        end
+        'stop'
     end
 
-    def parse_normalform
+    def parse_normalform(cmps)
     end
 
     def parse_schema(schema)

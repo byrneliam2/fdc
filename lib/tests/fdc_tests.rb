@@ -62,4 +62,5 @@ class FDCTests < Test::Unit::TestCase
 end
 
 # fdc -c R(A,B,C,D) {A/B;C/D}
+# fdc -c R(A,B,C,D,E) {A,B/C;C,D/E;D,E/B}
 
