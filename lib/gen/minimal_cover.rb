@@ -4,7 +4,7 @@
 class MinimalCover < GeneratorProcess
 
     def initialize(schema, fds)
-        super
+        super(schema, fds, MinimalCoverPrinter.new)
     end
 
     def compute

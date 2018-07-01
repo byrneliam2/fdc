@@ -1,21 +1,33 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
-class Printer
+class ClosurePrinter 
 
     def print(args)
-        # assume arg is a Hash from closure calc for now
         args.each do |k, v|
+            m = "" # key marker
             puts "#{k.to_s
                 .gsub("\"", "")
-                .gsub(", ", "")
                 .gsub("[", "")
                 .gsub("]", "")} -> #{v.to_a.to_s
                 .gsub("\"", "")
-                .gsub(", ", "")
                 .gsub("[", "{")
-                .gsub("]", "}")}"
+                .gsub("]", "}")} #{m}"
         end
+    end
+
+end
+
+class MinimalCoverPrinter 
+
+    def print(args)
+    end
+    
+end
+
+class NormalFormPrinter 
+
+    def print(args)
     end
 
 end

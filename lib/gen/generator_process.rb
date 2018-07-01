@@ -5,9 +5,12 @@ require 'set'
 
 class GeneratorProcess
 
-    def initialize(schema, fds)
+    attr_accessor :printer
+
+    def initialize(schema, fds, printer)
         @schema = format_schema(schema)
         @fds = format_fds(fds)
+        @printer = printer
     end
 
     def format_schema(schema)
@@ -42,6 +45,7 @@ class FuncDependency
         @rhs = setify rhs
     end
 
+    # Turn a comma-separated string into a set
     def setify(str)
         s = Set[]
         str.split(',').each do |t|

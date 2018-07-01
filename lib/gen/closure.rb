@@ -6,7 +6,7 @@ require_relative "generator_process"
 class Closure < GeneratorProcess
 
     def initialize(schema, fds)
-        super
+        super(schema, fds, ClosurePrinter.new)
     end
 
     def compute

@@ -17,41 +17,41 @@ class FDCParser
             return parse_normalform(args[1..args.length])
         when "-h", "--help"
             puts help
-            return 'stop'
+            return nil
         else
             puts help
-            return 'stop'
+            return nil
         end
     end
 
     def parse_closure(cmps)
         if cmps.length == 0
             error("schema and dependency set missing")
-            return 'stop'
+            return nil
         end
         if cmps.length == 1
             error("dependency set missing")
-            return 'stop'
+            return nil
         end
         if parse_schema(cmps[0]) && parse_fds(cmps[1])
             return Closure.new(cmps[0], cmps[1])
         end
-        'stop'
+        nil
     end 
     
     def parse_mincover(cmps)
         if cmps.length == 0
             error("schema and dependency set missing")
-            return 'stop'
+            return nil
         end
         if cmps.length == 1
             error("dependency set missing")
-            return 'stop'
+            return nil
         end
         if parse_schema(cmps[0]) && parse_fds(cmps[1])
             return MinimalCover.new(cmps[0], cmps[1])
         end
-        'stop'
+        nil
     end
 
     def parse_normalform(cmps)

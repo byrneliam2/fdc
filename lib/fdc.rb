@@ -8,14 +8,12 @@ class FDC
 
     def initialize(args)
         @parser = FDCParser.new
-        @printer = Printer.new
         run(args)
     end
 
     def run(args)
         opt = @parser.parse(args)
-        opt == 'stop' ? exit : @printer.print(opt.compute)
-        #opt&.compute
+        opt&.printer.print(opt&.compute)
     end
 
 end
