@@ -1,0 +1,1 @@
+@ruby lib/fdc.rb %*

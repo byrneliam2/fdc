@@ -1,11 +1,13 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
+# Collection of all printer classes specifically aimed at each type of process
+
 class ClosurePrinter 
 
     def print(args)
         args.each do |k, v|
-            m = "" # key marker
+            m =  v == args.values[args.length - 1] ? "[Key]" : "" # key marker
             puts "#{k.to_s
                 .gsub("\"", "")
                 .gsub("[", "")

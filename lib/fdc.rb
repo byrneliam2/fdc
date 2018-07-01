@@ -13,7 +13,7 @@ class FDC
 
     def run(args)
         opt = @parser.parse(args)
-        opt&.printer.print(opt&.compute)
+        opt&.printer&.print(opt&.compute)
     end
 
 end
