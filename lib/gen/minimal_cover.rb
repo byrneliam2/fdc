@@ -13,6 +13,7 @@ class MinimalCover < GeneratorProcess
     end
 
     def right_reduce!(g)
+        p g
         g.each do |f|
             if f.rhs.size > 1
                 f.rhs.each do |ff|
