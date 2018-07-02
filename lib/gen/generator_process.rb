@@ -17,8 +17,7 @@ class GeneratorProcess
         # Format the schema as an ordered list.
         # This is so when we work on it, results are produced in the input order.
         _schema = []
-        atrbs = schema[2...schema.length - 1]
-        atrbs.split(',').each do |a|
+        schema[2...schema.length - 1].split(',').each do |a|
             _schema << a
         end
         return _schema
@@ -26,8 +25,7 @@ class GeneratorProcess
 
     def format_fds(fds)
         _fds = []
-        deps = fds[1...fds.length - 1]
-        deps.split(';').each do |d|
+        fds[1...fds.length - 1].split(';').each do |d|
             ds = d.split('/')
             _fds << FuncDependency.new(ds[0], ds[1])
         end
@@ -54,7 +52,7 @@ class FuncDependency
         return s
     end
 
-    def ==(obj)
+    def ==(obj) # force equality to be on set components
         obj.is_a?(FuncDependency) && @lhs == obj.lhs && @rhs == obj.rhs
     end
 

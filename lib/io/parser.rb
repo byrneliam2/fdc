@@ -34,7 +34,9 @@ class FDCParser
             return nil
         end
         if parse_schema(cmps[0]) && parse_fds(cmps[1])
-            return Closure.new(cmps[0], cmps[1])
+            return cmps[2] == nil ? 
+                Closure.new(cmps[0], cmps[1], []) : # no restrictions, pass empty array
+                (Closure.new(cmps[0], cmps[1], cmps[2]) if parse_rests(cmps[2]))
         end
         return nil
     end 
@@ -87,6 +89,22 @@ class FDCParser
         return true
     end
 
+    def parse_rests(rests)
+        if rests[0] != '[' || rests[rests.length - 1] != ']'
+            error("incorrectly formed restriction set: see help (-h)")
+            return false
+        end
+        rests[1...rests.length - 1].split(';').each do |r|
+            if not r.match?("^[A-z,]+$")
+                error("incorrectly formed restrictions: see help (-h)")
+                return false
+            end
+            r.split(',').each do |rx|
+                return false if not assert_atrbs(rx)
+            end
+        end
+    end
+
     def assert_atrbs(atrb)
         if not atrb.match?("^[A-z]+$")
             error("incorrectly formed attributes: see help (-h)")
@@ -103,14 +121,14 @@ class FDCParser
         <<~HEREDOC
 
         Usage:
-            fdc -c/--closure <schema> <fds> [<attrs>]
+            fdc -c/--closure <schema> <fds> [<rests>]
             fdc -m/--mincover <schema> <fds>
             fdc -n/--normalform <schema> <fds>
             fdc -h/--help
         Definitions:
             <schema> = Relation schema in form R(A,B,CD)
             <fds> = Functional dependency set in form {A/B;A/CD;A,B/CD}
-            <attrs> = Attributes as specified in schema in form [A,B,CD]
+            <rests> = Optional attribute restrictions as specified in schema in form [A;A,B;CD]
 
         HEREDOC
     end
