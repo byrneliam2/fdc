@@ -8,31 +8,29 @@ class MinimalCover < GeneratorProcess
     end
 
     def compute
-        g = Set.new(@fds)
-        right_reduce!(g)
+        p right_reduce
     end
 
-    def right_reduce!(g)
-        p g
-        g.each do |f|
+    def right_reduce
+        g = Set.new(@fds)
+        @fds.each do |f|
             if f.rhs.size > 1
                 f.rhs.each do |ff|
-                    g.add(FuncDependency.new(:lhs => f.lhs, :rhs => Set.new(ff)))
+                    g << FuncDependency.new(f.lhs, Set.new([ff]))
                 end
-                g.delete(f)
             end
         end
-        p g
+        g.reject { |x| @fds.include?(x) }
     end
 
-    def left_reduce!(g)
+    def left_reduce
         g.each do |f|
             if f.lhs.size > 1
             end
         end
     end
 
-    def no_redundant!(g)
+    def no_redundant
     end
 
 end

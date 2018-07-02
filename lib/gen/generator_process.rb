@@ -19,9 +19,9 @@ class GeneratorProcess
         _schema = []
         atrbs = schema[2...schema.length - 1]
         atrbs.split(',').each do |a|
-            _schema.push(a)
+            _schema << a
         end
-        _schema
+        return _schema
     end
 
     def format_fds(fds)
@@ -29,9 +29,9 @@ class GeneratorProcess
         deps = fds[1...fds.length - 1]
         deps.split(';').each do |d|
             ds = d.split('/')
-            _fds.push(FuncDependency.new(ds[0], ds[1]))
+            _fds << FuncDependency.newFromString(ds[0], ds[1])
         end
-        _fds
+        return _fds
     end
 
 end
@@ -41,17 +41,27 @@ class FuncDependency
     attr_accessor :lhs, :rhs
 
     def initialize(lhs, rhs)
-        @lhs = setify lhs
-        @rhs = setify rhs
+        @lhs = lhs
+        @rhs = rhs
+    end
+
+    def self.newFromString(lhs, rhs)
+        _lhs = setify lhs
+        _rhs = setify rhs
+        return FuncDependency.new(_lhs, _rhs)
     end
 
     # Turn a comma-separated string into a set
-    def setify(str)
+    def self.setify(str)
         s = Set[]
         str.split(',').each do |t|
-            s.add(t)
+            s << t
         end
         return s
+    end
+
+    def ==(obj)
+        return obj.is_a?(FuncDependency) && @lhs == obj.lhs && @rhs == obj.rhs
     end
 
 end

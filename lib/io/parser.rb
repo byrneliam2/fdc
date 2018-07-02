@@ -36,7 +36,7 @@ class FDCParser
         if parse_schema(cmps[0]) && parse_fds(cmps[1])
             return Closure.new(cmps[0], cmps[1])
         end
-        nil
+        return nil
     end 
     
     def parse_mincover(cmps)
@@ -51,7 +51,7 @@ class FDCParser
         if parse_schema(cmps[0]) && parse_fds(cmps[1])
             return MinimalCover.new(cmps[0], cmps[1])
         end
-        nil
+        return nil
     end
 
     def parse_normalform(cmps)
@@ -67,7 +67,7 @@ class FDCParser
                 return false
             end
         end
-        true
+        return true
     end
 
     def parse_fds(fds)
@@ -88,7 +88,7 @@ class FDCParser
                 end
             end
         end
-        true
+        return true
     end
 
     def assert_atrbs(atrb)
@@ -96,7 +96,7 @@ class FDCParser
             error("incorrectly formed attributes: see help (-h)")
             return false
         end
-        true
+        return true
     end
 
     def error(msg)
