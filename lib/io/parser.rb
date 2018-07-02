@@ -63,9 +63,7 @@ class FDCParser
             return false
         end
         schema[2...schema.length - 1].split(',').each do |s|
-            if not assert_atrbs(s)
-                return false
-            end
+            return false if not assert_atrbs(s)
         end
         return true
     end
@@ -82,9 +80,7 @@ class FDCParser
             end
             f.split('/').each do |fx|
                 fx.split(',').each do |fxx|
-                    if not assert_atrbs(fxx)
-                        return false
-                    end
+                    return false if not assert_atrbs(fxx)
                 end
             end
         end

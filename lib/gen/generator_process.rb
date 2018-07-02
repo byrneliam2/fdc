@@ -8,8 +8,8 @@ class GeneratorProcess
     attr_accessor :printer
 
     def initialize(schema, fds, printer)
-        @schema = format_schema(schema)
-        @fds = format_fds(fds)
+        @schema = schema.is_a?(String) ? format_schema(schema) : schema
+        @fds = fds.is_a?(String) ? format_fds(fds) : fds
         @printer = printer
     end
 
@@ -29,7 +29,7 @@ class GeneratorProcess
         deps = fds[1...fds.length - 1]
         deps.split(';').each do |d|
             ds = d.split('/')
-            _fds << FuncDependency.newFromString(ds[0], ds[1])
+            _fds << FuncDependency.new(ds[0], ds[1])
         end
         return _fds
     end
@@ -41,18 +41,12 @@ class FuncDependency
     attr_accessor :lhs, :rhs
 
     def initialize(lhs, rhs)
-        @lhs = lhs
-        @rhs = rhs
-    end
-
-    def self.newFromString(lhs, rhs)
-        _lhs = setify lhs
-        _rhs = setify rhs
-        return FuncDependency.new(_lhs, _rhs)
+        @lhs = lhs.is_a?(String) ? setify(lhs) : lhs
+        @rhs = rhs.is_a?(String) ? setify(rhs) : rhs
     end
 
     # Turn a comma-separated string into a set
-    def self.setify(str)
+    def setify(str)
         s = Set[]
         str.split(',').each do |t|
             s << t
@@ -61,7 +55,7 @@ class FuncDependency
     end
 
     def ==(obj)
-        return obj.is_a?(FuncDependency) && @lhs == obj.lhs && @rhs == obj.rhs
+        obj.is_a?(FuncDependency) && @lhs == obj.lhs && @rhs == obj.rhs
     end
 
 end
