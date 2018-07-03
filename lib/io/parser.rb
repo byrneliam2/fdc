@@ -24,13 +24,20 @@ class FDCParser
         end
     end
 
-    def parse_closure(cmps)
+    def parse_base(cmps)
         if cmps.length == 0
             error("schema and dependency set missing")
-            return nil
+            return false
         end
         if cmps.length == 1
             error("dependency set missing")
+            return false
+        end
+        return true
+    end
+
+    def parse_closure(cmps)
+        if !(parse_base(cmps))
             return nil
         end
         if parse_schema(cmps[0]) && parse_fds(cmps[1])
@@ -42,12 +49,7 @@ class FDCParser
     end 
     
     def parse_mincover(cmps)
-        if cmps.length == 0
-            error("schema and dependency set missing")
-            return nil
-        end
-        if cmps.length == 1
-            error("dependency set missing")
+        if !(parse_base(cmps))
             return nil
         end
         if parse_schema(cmps[0]) && parse_fds(cmps[1])
