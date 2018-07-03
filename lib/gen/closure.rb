@@ -7,6 +7,12 @@ require_relative "generator_process"
 
 class Closure < GeneratorProcess
 
+    # ======================== REPRESENTATIONS =========================
+    # RESTRICTIONS are represented as a SET of ARRAYS (to compare with
+    # combination lists as stored in closure hash)
+    # OUTPUT CLOSURE COMPUTATION is represented as a HASH of COMBINATION
+    # LISTS to ATTRIBUTE SETS
+
     def initialize(schema, fds, rests)
         super(schema, fds, p = ClosurePrinter.new)
         p.schema = @schema # set schema after superclass processing
@@ -29,7 +35,7 @@ class Closure < GeneratorProcess
             end
         end
         # filter generations if needed
-        return @rests.empty? ? out : out.select { |x| @rests == Set.new(x) }
+        return @rests.empty? ? out : out.select { |k, _| @rests.include?(k) }
     end
 
     def compute_closure(x)

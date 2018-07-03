@@ -5,6 +5,11 @@ require 'set'
 
 class GeneratorProcess
 
+    # ======================== REPRESENTATIONS =========================
+    # SCHEMA is represented as an ordered ARRAY
+    # FUNCTIONAL DEPENDENCIES are stored in SETS
+    # - ATTRIBUTE SETS within functional dependencies are stored in SETS
+
     attr_accessor :printer
 
     def initialize(schema, fds, printer)
@@ -16,7 +21,7 @@ class GeneratorProcess
     end
 
     def format_schema(schema)
-        Set.new(schema[2...schema.length - 1].split(','))
+        schema[2...schema.length - 1].split(',')
     end
 
     def format_fds(fds)

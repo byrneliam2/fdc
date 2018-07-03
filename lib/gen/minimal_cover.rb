@@ -31,10 +31,10 @@ class MinimalCover < GeneratorProcess
         @fds.each do |f|
             g << f && next if f.lhs.size == 1
             f.lhs.each do |fx|
-                lhsx = f.lhs - [fx]
-                d = FuncDependency.new(lhsx, f.rhs)
-                p Closure.new(@schema, @fds | [d], lhsx).compute
-                if Closure.new(@schema, @fds | [d], lhsx).compute.include?(f.rhs)
+                d = FuncDependency.new(f.lhs - [fx], f.rhs)
+                rests = Set[(f.lhs - [fx]).to_a]
+                p Closure.new(@schema, @fds | [d], rests).compute
+                if Closure.new(@schema, @fds | [d], rests).compute.include?(f.rhs)
                     puts "Woohoo!"
                 end
             end
