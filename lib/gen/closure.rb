@@ -8,14 +8,15 @@ require_relative "generator_process"
 class Closure < GeneratorProcess
 
     def initialize(schema, fds, rests)
-        super(schema, fds, ClosurePrinter.new)
+        super(schema, fds, p = ClosurePrinter.new)
+        p.schema = @schema # set schema after superclass processing
         @rests = rests.is_a?(String) ? format_rests(rests) : rests
     end
 
     def format_rests(rests)
         _rests = []
         rests[1...rests.length - 1].split(';').each do |r|
-            # _rests << Set.new(r.to_a)
+            _rests << r.split(',')
         end
         return _rests
     end
@@ -24,10 +25,11 @@ class Closure < GeneratorProcess
         out = {}
         for i in 1..@schema.length do
             @schema.to_a.combination(i).each do |comb|
-                out.store(comb, compute_closure(SortedSet.new(comb)))
+                out.store(comb, compute_closure(Set.new(comb)))
             end
         end
-        return @rests == [] ? out : out.select { |x| }
+        # filter generations if needed
+        return @rests == [] ? out : out.select { |x| @rests.include?(x) }
     end
 
     def compute_closure(x)

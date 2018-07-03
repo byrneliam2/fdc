@@ -8,19 +8,17 @@ class GeneratorProcess
     attr_accessor :printer
 
     def initialize(schema, fds, printer)
+        # Accept properly formatted strings (which will be turned into an array)
+        # or an array itself (assumed to be)
         @schema = schema.is_a?(String) ? format_schema(schema) : schema
         @fds = fds.is_a?(String) ? format_fds(fds) : fds
         @printer = printer
     end
 
     def format_schema(schema)
-        # Format the schema as an ordered list.
+        # Format the schema as an ordered array. TODO?
         # This is so when we work on it, results are produced in the input order.
-        _schema = []
-        schema[2...schema.length - 1].split(',').each do |a|
-            _schema << a
-        end
-        return _schema
+        return schema[2...schema.length - 1].split(',')
     end
 
     def format_fds(fds)
@@ -45,11 +43,7 @@ class FuncDependency
 
     # Turn a comma-separated string into a set
     def setify(str)
-        s = Set[]
-        str.split(',').each do |t|
-            s << t
-        end
-        return s
+        Set.new(str.split(','))
     end
 
     def ==(obj) # force equality to be on set components

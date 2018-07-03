@@ -57,6 +57,7 @@ class FDCParser
     end
 
     def parse_normalform(cmps)
+        # TODO
     end
 
     def parse_schema(schema)

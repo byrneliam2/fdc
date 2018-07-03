@@ -5,9 +5,11 @@
 
 class ClosurePrinter 
 
+    attr_writer :schema
+
     def print(args)
         args.each do |k, v|
-            m =  v == args.values[args.length - 1] ? "[Key]" : "" # key marker
+            m = v == Set.new(@schema) ? "[Key]" : "" # key marker
             puts "#{k.to_s
                 .gsub("\"", "")
                 .gsub("[", "")
