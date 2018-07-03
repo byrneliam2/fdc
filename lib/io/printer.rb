@@ -25,6 +25,15 @@ end
 class MinimalCoverPrinter 
 
     def print(args)
+        args.each do |f|
+            puts "#{f.lhs.to_a.to_s
+                .gsub("[", "{")
+                .gsub("]", "}")
+                .gsub("\"", "")} -> #{f.rhs.to_a.to_s
+                .gsub("[", "{")
+                .gsub("]", "}")
+                .gsub("\"", "")}"
+        end
     end
     
 end
