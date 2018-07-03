@@ -16,13 +16,11 @@ class GeneratorProcess
     end
 
     def format_schema(schema)
-        # Format the schema as an ordered array. TODO?
-        # This is so when we work on it, results are produced in the input order.
-        return schema[2...schema.length - 1].split(',')
+        Set.new(schema[2...schema.length - 1].split(','))
     end
 
     def format_fds(fds)
-        _fds = []
+        _fds = Set[]
         fds[1...fds.length - 1].split(';').each do |d|
             ds = d.split('/')
             _fds << FuncDependency.new(ds[0], ds[1])
@@ -37,13 +35,8 @@ class FuncDependency
     attr_accessor :lhs, :rhs
 
     def initialize(lhs, rhs)
-        @lhs = lhs.is_a?(String) ? setify(lhs) : lhs
-        @rhs = rhs.is_a?(String) ? setify(rhs) : rhs
-    end
-
-    # Turn a comma-separated string into a set
-    def setify(str)
-        Set.new(str.split(','))
+        @lhs = lhs.is_a?(String) ? Set.new(lhs.split(',')) : lhs
+        @rhs = rhs.is_a?(String) ? Set.new(rhs.split(',')) : rhs
     end
 
     def ==(obj) # force equality to be on set components

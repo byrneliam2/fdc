@@ -14,7 +14,7 @@ class Closure < GeneratorProcess
     end
 
     def format_rests(rests)
-        _rests = []
+        _rests = Set[]
         rests[1...rests.length - 1].split(';').each do |r|
             _rests << r.split(',')
         end
@@ -29,7 +29,7 @@ class Closure < GeneratorProcess
             end
         end
         # filter generations if needed
-        return @rests == [] ? out : out.select { |x| @rests.include?(x) }
+        return @rests.empty? ? out : out.select { |x| @rests == Set.new(x) }
     end
 
     def compute_closure(x)

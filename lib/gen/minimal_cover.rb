@@ -1,6 +1,8 @@
 # Liam Byrne (byrneliam2)
 # fdc
 
+require 'set'
+
 class MinimalCover < GeneratorProcess
 
     def initialize(schema, fds)
@@ -14,28 +16,30 @@ class MinimalCover < GeneratorProcess
     end
 
     def right_reduce
-        g = []
+        g = Set[]
         @fds.each do |f|
             g << f && next if f.rhs.size == 1
             f.rhs.each do |fx|
                 g << FuncDependency.new(f.lhs, Set[fx])
             end
         end
+        return g
     end
 
     def left_reduce
-        g = []
+        g = Set[]
         @fds.each do |f|
             g << f && next if f.lhs.size == 1
             f.lhs.each do |fx|
                 lhsx = f.lhs - [fx]
                 d = FuncDependency.new(lhsx, f.rhs)
-                p Closure.new(@schema, @fds + [d], lhsx).compute
-                if Closure.new(@schema, @fds + [d], lhsx).compute.include?(f.rhs)
+                p Closure.new(@schema, @fds | [d], lhsx).compute
+                if Closure.new(@schema, @fds | [d], lhsx).compute.include?(f.rhs)
                     puts "Woohoo!"
                 end
             end
         end
+        return g
     end
 
     def no_redundant
