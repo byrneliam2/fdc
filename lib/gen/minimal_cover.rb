@@ -14,23 +14,24 @@ class MinimalCover < GeneratorProcess
     end
 
     def right_reduce
-        g = Array.new(@fds)
+        g = []
         @fds.each do |f|
-            next if f.rhs.size == 1
+            g << f && next if f.rhs.size == 1
             f.rhs.each do |fx|
                 g << FuncDependency.new(f.lhs, Set[fx])
             end
         end
-        g.reject { |x| @fds.include?(x) }
     end
 
     def left_reduce
-        g = Array.new(@fds)
-        g.each do |f|
-            next if f.lhs.size == 1
+        g = []
+        @fds.each do |f|
+            g << f && next if f.lhs.size == 1
             f.lhs.each do |fx|
-                d = FuncDependency.new(f.lhs - [fx], f.rhs)
-                if Closure.new(@schema, Set[d]).compute.include?(f.rhs)
+                lhsx = f.lhs - [fx]
+                d = FuncDependency.new(lhsx, f.rhs)
+                p Closure.new(@schema, @fds + [d], lhsx).compute
+                if Closure.new(@schema, @fds + [d], lhsx).compute.include?(f.rhs)
                     puts "Woohoo!"
                 end
             end
