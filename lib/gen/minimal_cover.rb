@@ -32,10 +32,10 @@ class MinimalCover < GeneratorProcess
             g << f && next if f.lhs.size == 1
             f.lhs.each do |fx|
                 d = FuncDependency.new(f.lhs - [fx], f.rhs)
-                rests = Set[(f.lhs - [fx]).to_a]
-                p Closure.new(@schema, @fds | [d], rests).compute
-                if Closure.new(@schema, @fds | [d], rests).compute.include?(f.rhs)
-                    puts "Woohoo!"
+                rests = (f.lhs - [fx]).to_a
+                # p Closure.new(@schema, @fds | [d], Set[rests]).compute
+                if f.rhs.subset?(Closure.new(@schema, @fds | [d], Set[rests]).compute[rests])
+                    # g << d # TODO
                 end
             end
         end
@@ -43,6 +43,13 @@ class MinimalCover < GeneratorProcess
     end
 
     def no_redundant
+        g = Set[]
+        @fds.each do |f|
+            x = @fds - [f]
+            next if f.rhs.subset?(Closure.new(@schema, x, Set[f.lhs.to_a]).compute[f.lhs.to_a])
+            g << f
+        end
+        return g
     end
 
 end
