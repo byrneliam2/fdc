@@ -1,1 +1,1 @@
-@ruby lib/tests/fdc_tests.rb
+@ruby lib/tests/ts_fdc.rb
