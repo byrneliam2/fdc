@@ -41,6 +41,7 @@ end
 class NormalFormPrinter 
 
     def print(args)
+        puts "Highest normal form is #{args}"
     end
 
 end

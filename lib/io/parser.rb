@@ -59,7 +59,13 @@ class FDCParser
     end
 
     def parse_normalform(cmps)
-        # TODO
+        if !(parse_base(cmps))
+            return nil
+        end
+        if parse_schema(cmps[0]) && parse_fds(cmps[1])
+            return NormalForm.new(cmps[0], cmps[1])
+        end
+        return nil
     end
 
     def parse_schema(schema)
