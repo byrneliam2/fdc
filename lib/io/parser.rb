@@ -112,6 +112,7 @@ class FDCParser
                 return false if not assert_atrbs(rx)
             end
         end
+        return true
     end
 
     def assert_atrbs(atrb)

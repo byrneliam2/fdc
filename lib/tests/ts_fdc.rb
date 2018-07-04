@@ -4,6 +4,7 @@
 require "test/unit"
 
 require_relative "tc_parser"
+require_relative "tc_genprocess"
 
 # fdc -c R(A,B,C,D) {A/B;C/D}
 # fdc -c R(A,B,C,D,E) {A,B/C;C,D/E;D,E/B}
