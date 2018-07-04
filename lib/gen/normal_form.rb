@@ -23,13 +23,24 @@ class NormalForm < GeneratorProcess
 
     def second_nf?
         keys = Closure.new(@schema, @fds, []).compute_minimal_keys
-        p keys
+        return true if keys.all? { |k| k.length == 1 }
+        @fds.each do |f|
+            if !(prime?(f.rhs, keys)) && 
+                keys.any? { |k| f.lhs.subset?(Set.new(k)) && f.lhs.length != k.length }
+                return false
+            end
+        end
+        return true
     end
 
     def third_nf?
     end
 
     def bc_nf?
+    end
+
+    def prime?(atrb, keys)
+        keys.any? { |k| Set.new(k).subset?(atrb) }
     end
 
 end

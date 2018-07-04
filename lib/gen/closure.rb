@@ -42,7 +42,7 @@ class Closure < GeneratorProcess
         i = 0
         loop do
             @fds.each do |f|
-                if f.lhs.subset?(x) && 
+                if f.lhs.subset?(x) # && 
                     x = x | f.rhs
                     # i += 1
                 end 
