@@ -57,8 +57,8 @@ class Closure < GeneratorProcess
         schema_set = Set.new(@schema)
         min = Set[]
         _super = compute.select { |_, v| schema_set.subset?(v) }
-        _super.keys.each do |k|
-            min << k if (_super.keys - [k]).none? { |x| x.include?(k) }
+        _super.keys.each do |k| # convert to sets for subset functionality
+            min << k if (_super.keys - [k]).none? { |x| Set.new(x).subset?(Set.new(k)) }
         end
         return min
     end

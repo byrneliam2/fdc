@@ -23,6 +23,7 @@ class NormalForm < GeneratorProcess
 
     def second_nf?
         keys = Closure.new(@schema, @fds, []).compute_minimal_keys
+        p keys
     end
 
     def third_nf?
