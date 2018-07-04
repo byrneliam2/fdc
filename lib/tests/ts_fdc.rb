@@ -14,13 +14,13 @@ require_relative "tc_genprocess"
 # Cheeky monkey patch over setup and teardown methods to hide stdout
 class Test::Unit::TestCase
 
-    def setup
-        @og_stdout = $stdout
-        $stdout = File.new("NUL", 'w')
-    end
+  def setup
+    @og_stdout = $stdout
+    $stdout = File.new("NUL", 'w')
+  end
 
-    def teardown
-        $stdout = @og_stdout
-    end
+  def teardown
+    $stdout = @og_stdout
+  end
 
 end
