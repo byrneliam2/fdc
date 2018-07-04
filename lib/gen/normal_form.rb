@@ -34,13 +34,33 @@ class NormalForm < GeneratorProcess
     end
 
     def third_nf?
+        keys = Closure.new(@schema, @fds, []).compute_minimal_keys
+        @fds.each do |f|
+            next if trivial?(f)
+            if !(keys.any? { |k| f.lhs.subset?(Set.new(k)) } || prime?(f.rhs, keys))
+                return false
+            end
+        end
+        return true
     end
 
     def bc_nf?
+        keys = Closure.new(@schema, @fds, []).compute_minimal_keys
+        @fds.each do |f|
+            next if trivial?(f)
+            if !(keys.any? { |k| f.lhs.subset?(Set.new(k)) })
+                return false
+            end
+        end
+        return true
     end
 
     def prime?(atrb, keys)
         keys.any? { |k| Set.new(k).subset?(atrb) }
+    end
+
+    def trivial?(f)
+        f.rhs.subset?(f.lhs)
     end
 
 end
