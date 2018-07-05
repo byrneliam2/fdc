@@ -21,9 +21,10 @@ class GeneratorProcessTests < Test::Unit::TestCase
 
   def test03_FDFormatting
     g = GeneratorProcess.new(nil, nil, nil)
-    x = Set[FuncDependency.new("A", "B"), FuncDependency.new("C", "D")]
-    g.format_fds("{A/B;C/D}").each do |f|
-      assert_true(x.include?(f))
+    x = [FuncDependency.new("A", "B"), FuncDependency.new("C", "D")]
+    y = g.format_fds("{A/B;C/D}").to_a 
+    for i in 0..x.length # use for loop to compare dependencies directly
+      assert_true(x[i] == y[i])
     end
   end
 
