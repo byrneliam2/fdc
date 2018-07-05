@@ -4,12 +4,10 @@
 require "test/unit"
 
 require_relative "tc_parser"
-require_relative "tc_genprocess"
-
-# fdc -c R(A,B,C,D) {A/B;C/D}
-# fdc -c R(A,B,C,D,E) {A,B/C;C,D/E;D,E/B}
-# fdc -m R(A,B,C,D,E) {A/B,C,D,E}
-# fdc -m R(A,B,C,D,E) {A,B/C,D,E}
+require_relative "tc_generator_process"
+require_relative "tc_closure"
+require_relative "tc_minimal_cover"
+require_relative "tc_normal_form"
 
 # Cheeky monkey patch over setup and teardown methods to hide stdout
 class Test::Unit::TestCase
